@@ -1,0 +1,193 @@
+body{
+	background-image: url("images/orange.png");
+}
+
+h1{
+  font-family: Bodoni MT Condensed;
+  color: white;
+  display: inline-block;
+  margin-top: 5px;
+  font-size: 50px;
+  padding: 0px;
+}
+.btn{
+  display: inline-block;
+  background: rgb(26,26,26);
+  color: white;
+  border-color: rgb(26,26,26);
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.btn:hover{
+  background: rgb(11,11,11);
+  border-radius: 50px;
+  border-color: rgb(11,11,11);
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  color: white;
+}
+.lagayan_title{
+	margin-top: 50px;
+	border-style: dashed;
+	border-radius: 5px;
+	border-width: 2px;
+	padding: 10px;
+	width: 50%;
+	height: 120px;
+}
+.ingredients{
+	margin-top: 30px;
+	border-style: dashed;
+	border-width: 2px;
+	padding: 5px;
+	width: 50%;
+	color: black;
+}
+.logo{
+	margin-top: 40px;
+    margin-left: 20px;
+    margin-right: auto;
+    padding-bottom: 30px;
+}
+.I_design{
+    box-shadow: rgb(255, 255, 255); 
+    border: 1px solid black; 
+    display: inline-block; 
+    color: rgb(51,51,51);
+    cursor: pointer;  
+    font-family: Calibri; 
+    font-size: 18px; 
+    font-weight: bold; 
+    padding: 6px; 
+    text-decoration: none; 
+    background-color: transparent;
+    width: 210px;
+    text-align: center;
+    background-color: rgba(255,255,255,0.75);
+    color: rgb(15,15,15);
+    border-color: white;
+ }
+ .I_design:hover{
+  	background-color: white;
+  	color: black;
+ }
+.navbar.transparent.navbar-inverse .navbar-fixed-top {
+ 	 background: rgb(26,26,26);
+   font-size: 100%;
+   width: 100%;
+   float: left;
+   margin: 0 0 1em 0;
+   padding: 0;
+ }
+.signup-button{
+  background-color: rgb(15,15,15);
+  border: 1px solid white; 
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  color: white;
+  display: inline-block;
+  font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  height: 32px;
+  line-height: 22px;
+  max-width: 200px;
+  padding-bottom: 5px;
+  padding-left: 13px;
+  padding-right: 13px;
+  padding-top: 4px;
+  }
+  .signup-button:hover{
+    background-color: rgb(240,240,240);
+    color: rgb(0,0,0);
+    text-decoration: none;
+  }
+  .login-button{
+  background-color: transparent;
+  border-bottom-color: rgb(255, 255, 255);
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  color: rgb(255, 255, 255);
+  display: inline-block;
+  font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  height: 32px;
+  line-height: 22px;
+  margin-left: 610px;
+  margin-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 13px;
+  padding-right: 13px;
+  padding-top: 4px;
+  }
+  .login-button:hover{
+  color: white;
+  text-decoration: none;
+  }
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+a.category:link, a.category:visited {
+    display: block;
+    width: 120px;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(26,26,26);
+    text-align: center;
+    padding: 4px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+a.category:hover, a.category:active {
+    background-color: white;
+    color: rgb(26,26,26);
+}
+.menus{
+    list-style:none;
+    margin:0 auto;
+    width:750px;
+    margin-left:20px; /*position of menus*/
+}
+.menus li{
+    float: left;
+    margin-right: 10px;
+}
+.menus a{
+    display: block;
+    text-align:center;
+	width: 100%; 
+	text-decoration:none; 
+}
+.navbar_nextprev{
+	margin-top:155px;
+	background-color: white;
+	width: 100%;
+	height: 45px;
+}
+.prev, .next{
+    display: inline-block; 
+    cursor: pointer; 
+    color: rgb(239,48,57); 
+    font-family: Calibri; 
+    font-size: 18px; 
+    font-weight: bold; 
+    margin-top: 10px;
+    padding: 0px;
+    text-decoration: none; 
+    background-color: transparent;
+    width: 100px;
+    float: right;
+}

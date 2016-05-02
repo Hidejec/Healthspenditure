@@ -1,0 +1,176 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Page1 Foods</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/bootstrap-3.3.5-dist/css/bootstrap.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="jquery-2.1.4.js"></script>
+  <script src="/bootstrap-3.3.5-dist/js/bootstrap.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXPd7SzVguXAy0-RXNhQUwV2sU4jtXk1I&signed_in=true&libraries=places&callback=initMap" async defer></script>
+   <script>
+   var map;
+   var infoWindow;
+   var you;
+	function initMap() {
+
+			 map = new google.maps.Map(document.getElementById('map'), {
+   			 center: {lat: 121, lng: 14},
+			    zoom: 6
+			  });
+			 you = new google.maps.InfoWindow();
+			
+			  // Try HTML5 geolocation.
+			 if (navigator.geolocation) {
+			    navigator.geolocation.getCurrentPosition(function(position) {
+			    var pos = {
+			        lat: position.coords.latitude,
+			        lng: position.coords.longitude
+			      };
+			     currentPositionMarker(pos);
+			 	infowindow = new google.maps.InfoWindow();
+			      map.setCenter(pos);
+			      map.setZoom(16);
+			     var circle = new google.maps.Circle({
+           		 center: pos,
+           		 map: map,
+           		 radius: 1000,          // IN METERS.
+           		 fillColor: '#FF6600',
+           		 fillOpacity: 0.3,
+            	 strokeColor: "#FFF",
+            	 strokeWeight: 0         // DON'T SHOW CIRCLE BORDER.
+       			 });
+			      var service = new google.maps.places.PlacesService(map);
+				  service.nearbySearch({
+				  	location: pos,
+			      	radius: 1000,
+			      	types: ['grocery_or_supermarket']
+				  }, callback);
+			    }, function() {
+			      handleLocationError(true, you, map.getCenter());
+			    });
+			  } else {
+			    // Browser doesn't support Geolocation
+			    handleLocationError(false, you, map.getCenter());
+			  }
+			 
+			}
+
+			function callback(results, status) {
+			  if (status === google.maps.places.PlacesServiceStatus.OK) {
+			    for (var i = 0; i < results.length; i++) {
+			      createMarker(results[i]);
+			    }
+			  }
+			}
+			function currentPositionMarker(pos){
+			  	
+			  	var pinIcon = new google.maps.MarkerImage(
+    			'images/personicon.png',
+    			null, /* size is determined at runtime */
+    			null, /* origin is 0,0 */
+    			null, /* anchor is bottom center of the scaled image */
+    			new google.maps.Size(42, 42)
+				);  
+			 	var marker = new google.maps.Marker({
+			    map: map,
+			    title:"Your are currently here",
+			    position: pos,
+			    icon: pinIcon
+			  });
+			
+			  google.maps.event.addListener(marker, 'click', function() {
+			    you.setContent("You are currently here");
+			    you.open(map, this);
+			  });
+			}
+			function createMarker(place) {
+			  var placeLoc = place.geometry.location;
+			  var marker = new google.maps.Marker({
+			    map: map,
+			    position: place.geometry.location
+			  });
+			
+			  google.maps.event.addListener(marker, 'click', function() {
+			    infowindow.setContent(place.name);
+			    infowindow.open(map, this);
+			  });
+			}
+			function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+			 you.setPosition(pos);
+			 you.setContent(browserHasGeolocation ?
+			                        'Error: The Geolocation service failed.' :
+			                        'Error: Your browser doesn\'t support geolocation.');
+			}
+    </script>
+</head>
+<body>
+<?php 
+
+   $con = mysql_connect("localhost","root","");
+	  if(!$con){
+		   die("can not connect:" . mysql_error()); 
+		   }
+	   mysql_select_db("Healthspenditure",$con);
+					    
+					
+		$result = mysql_query("SELECT illness FROM decision",$con);
+		$storeArray = Array();
+		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+   		$storeArray[] =  $row['illness'];  
+		}
+					
+					
+		 mysql_close($con);
+					
+ ?>
+
+
+
+		<div class="div50 pull-left">
+			<div class="lagayan center-block container-fluid">
+				
+				<center><h3 class="text-success">Recommended Foods</h3></center>	
+				
+				<table class="table table-striped">
+   				 <thead>
+   				   <tr>
+   				     <th>Food</th>
+   				     <th>Price</th>
+   				   </tr>
+   				 </thead>
+   				 <tbody>
+   				 	 <tr>
+   				    <td><?php echo "wa"; ?></td>
+      				</tr>
+
+   				 </tbody>
+ 				 </table>
+
+			</div>
+			<div class="lagayan center-block">
+
+				<center><h3 class="text-danger">Avoid these foods</h3></center>	
+				
+				<table class="table table-striped text-center">
+   				 <tbody>
+   				   <tr>
+   				     <td>Egg</td>
+   				   </tr>
+   				   <tr>
+   				     <td>Adobo</td>   				    
+   				   </tr>   		
+   				 </tbody>
+ 				 </table>
+			</div>
+		</div>
+		
+			<div id="map" class="pull-right"></div>
+	
+</body>
+</html>
