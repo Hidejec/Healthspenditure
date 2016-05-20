@@ -11,10 +11,10 @@ $app = new \Slim\App([
     ]
 ]);
 
+new Liquido\App;
+
 $app->get('/', "Controller\HomeController:index");
 
-$app->get('/{illness}', "Controller\IllnessController:index");
-
-$app->get('/{illness}/recipe', "Controller\IllnessController:recipe");
+$app->post('/', "Controller\HomeController:nextpage");
 
 $app->run();

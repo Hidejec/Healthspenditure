@@ -2,7 +2,7 @@
 
 ini_set( "display_errors", true );
 date_default_timezone_set( "Asia/Manila" );  // http://www.php.net/manual/en/timezones.php
-define( "DB_DSN", "mysql:host=localhost;dbname=healthspenditure" );
+define( "DB_DSN", "mysql:host=localhost;dbname=Healthspenditure" );
 define( "DB_USERNAME", "root" );
 define( "DB_PASSWORD", "root" );
  
