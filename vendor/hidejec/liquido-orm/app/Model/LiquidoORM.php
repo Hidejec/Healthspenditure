@@ -12,7 +12,7 @@ class LiquidoORM extends DatabaseConnection{
 	public static function set($class) {
         $path = explode('\\', $class);
     	$childClass = strtolower(array_pop($path));
-        if(static::$table == ""|| static::$table == null){
+    	if(static::$table == ""|| static::$table == null){
             self::$table = $childClass."s";   
         }
         else{
@@ -30,7 +30,7 @@ class LiquidoORM extends DatabaseConnection{
     	$sql = "SELECT $column FROM `".self::$table."`";
 		$query = $con->prepare($sql);
 		$query->execute();
-		$list = $query->fetchAll(PDO::FETCH_ASSOC);
+		$list = $query->fetchAll(PDO::FETCH_COLUMN);
 		if($list){
 			return $list;
 		}
@@ -47,7 +47,7 @@ class LiquidoORM extends DatabaseConnection{
 		$query = $con->prepare($sql);
 		$query->bindParam(':id', $id);
 		$query->execute();
-		$list = $query->fetch(PDO::FETCH_ASSOC);
+		$list = $query->fetch(PDO::FETCH_COLUMN);
 		if($list){
 			return $list;
 		}
@@ -62,7 +62,7 @@ class LiquidoORM extends DatabaseConnection{
     	$con = parent::$instance;
     	$where = "";
     	$condition = array_keys($argument);
-    	for($x = 0; $x < count($condition) -1 ; $x++){
+    	for($x = 0; $x < count($condition); $x++){
     		if(is_array($argument[$condition[$x]])){
     			for($y = 0; $y < count($argument[$condition[$x]]); $y++){
     				if($y < count($argument[$condition[$x]])-1){
@@ -82,7 +82,7 @@ class LiquidoORM extends DatabaseConnection{
     	$sql = "SELECT $column FROM `".self::$table."` WHERE $where";
 		$query = $con->prepare($sql);
 		$query->execute();
-		$list = $query->fetchAll(PDO::FETCH_ASSOC);
+		$list = $query->fetchAll(PDO::FETCH_COLUMN);
 		if($list){
 			return $list;
 		}
@@ -99,7 +99,7 @@ class LiquidoORM extends DatabaseConnection{
     	$sql = "SELECT $column FROM `".self::$table."` WHERE $where";
 		$query = $con->prepare($sql);
 		$query->execute();
-		$list = $query->fetchAll(PDO::FETCH_ASSOC);
+		$list = $query->fetch(PDO::FETCH_COLUMN);
 		if($list){
 			return $list;
 		}

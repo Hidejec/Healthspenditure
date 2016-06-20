@@ -6,8 +6,11 @@
     },
     "autoload": {
     	"psr-4": {
-    		"Model\\": "app/Model/",
-    		"Controller\\": "app/Controller/"
+    		"Models\\": "app/models/",
+    		"Controllers\\": "app/controllers/",
+            "Helpers\\": "app/helpers/",
+            "Exceptions\\": "app/exceptions/",
+            "Responses\\": "app/responses/"
     	}
     }
 }

@@ -8,11 +8,14 @@ $baseDir = dirname($vendorDir);
 return array(
     'Slim\\Views\\' => array($vendorDir . '/slim/twig-view/src'),
     'Slim\\' => array($vendorDir . '/slim/slim/Slim'),
+    'Responses\\' => array($baseDir . '/app/responses'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
-    'Model\\' => array($baseDir . '/app/Model'),
+    'Models\\' => array($baseDir . '/app/models'),
     'Liquido\\Model\\' => array($vendorDir . '/hidejec/liquido-orm/app/Model'),
     'Liquido\\' => array($vendorDir . '/hidejec/liquido-orm/app'),
     'Interop\\Container\\' => array($vendorDir . '/container-interop/container-interop/src/Interop/Container'),
+    'Helpers\\' => array($baseDir . '/app/helpers'),
     'FastRoute\\' => array($vendorDir . '/nikic/fast-route/src'),
-    'Controller\\' => array($baseDir . '/app/Controller'),
+    'Exceptions\\' => array($baseDir . '/app/exceptions'),
+    'Controllers\\' => array($baseDir . '/app/controllers'),
 );

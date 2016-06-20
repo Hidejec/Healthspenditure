@@ -2,19 +2,15 @@
 
 require 'vendor/autoload.php';
 
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
+$settings = require_once __DIR__ . '/app/settings.php';
+$app = new \Slim\App($settings);
 
-$app = new \Slim\App([
-    'settings' => [
-        'displayErrorDetails' => true
-    ]
-]);
+session_start();
 
-new Liquido\App;
+require_once __DIR__ . '/app/dependencies.php';
 
-$app->get('/', "Controller\HomeController:index");
+require_once __DIR__ . '/app/middleware.php';
 
-$app->post('/', "Controller\HomeController:nextpage");
+require_once __DIR__ . '/app/routes.php';
 
 $app->run();

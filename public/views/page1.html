@@ -1,0 +1,268 @@
+{% extends "layouts/master.html" %}
+
+{% block body %}
+<div id="map" class="pull-right"></div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXPd7SzVguXAy0-RXNhQUwV2sU4jtXk1I&signed_in=true&libraries=places&callback=initMap" async defer></script>
+<script>
+   	var map;
+   	var infoWindow;
+   	var you;
+	var isAuto;
+	var marketName;
+	
+    function initMap() {
+		var customMapType = new google.maps.StyledMapType([{"featureType": "administrative","elementType": "labels.text.fill","stylers": [{"color": "#444444"}]},{"featureType": "administrative.country","elementType": "all","stylers": [{"visibility": "off"}]},{"featureType": "administrative.country","elementType": "geometry","stylers": [{"visibility": "off"}]},{"featureType": "administrative.country","elementType": "geometry.fill","stylers": [{"visibility": "off"}]},{"featureType": "administrative.country","elementType": "geometry.stroke","stylers": [{"visibility": "off"}]},{"featureType": "administrative.province","elementType": "all","stylers": [{"visibility": "off"}]},{"featureType": "administrative.locality","elementType": "labels","stylers": [{"hue": "#ffe500"}]},{"featureType": "landscape","elementType": "all","stylers": [{"color": "#f2f2f2"},{"visibility": "on"}]},{"featureType": "landscape.natural","elementType": "all","stylers": [{"visibility": "on"}]},{"featureType": "landscape.natural.landcover","elementType": "all","stylers": [{"visibility": "on"}]},{"featureType": "landscape.natural.terrain","elementType": "all","stylers": [{"visibility": "on"}]},{"featureType": "landscape.natural.terrain","elementType": "geometry","stylers": [{"visibility": "on"}]},{"featureType": "landscape.natural.terrain","elementType": "geometry.fill","stylers": [{"visibility": "on"}]},{"featureType": "landscape.natural.terrain","elementType": "geometry.stroke","stylers": [{"visibility": "on"}]},{"featureType": "landscape.natural.terrain","elementType": "labels","stylers": [{"visibility": "on"}]},{"featureType": "landscape.natural.terrain","elementType": "labels.text","stylers": [{"visibility": "on"}]},{"featureType": "landscape.natural.terrain","elementType": "labels.text.fill","stylers": [{"visibility": "on"}]},{"featureType": "landscape.natural.terrain","elementType": "labels.text.stroke","stylers": [{"visibility": "on"}]},{"featureType": "landscape.natural.terrain","elementType": "labels.icon","stylers": [{"visibility": "on"}]},{"featureType": "poi","elementType": "all","stylers": [{"visibility": "on"}]},{"featureType": "poi.attraction","elementType": "all","stylers": [{"visibility": "on"}]},{"featureType": "poi.business","elementType": "all","stylers": [{"visibility": "on"}]},{"featureType": "poi.place_of_worship","elementType": "all","stylers": [{"visibility": "on"}]},{"featureType": "poi.school","elementType": "all","stylers": [{"visibility": "simplified"}]},{"featureType": "road","elementType": "all","stylers": [{"saturation": -100},{"lightness": 45},{"visibility": "on"}]},{"featureType": "road.highway","elementType": "all","stylers": [{"visibility": "simplified"}]},{"featureType": "road.arterial","elementType": "labels.icon","stylers": [{"visibility": "off"}]},{"featureType": "transit","elementType": "all","stylers": [{"visibility": "off"}]},{"featureType": "transit.station","elementType": "all","stylers": [{"visibility": "simplified"}]},{"featureType": "transit.station.airport","elementType": "all","stylers": [{"visibility": "on"}]},{"featureType": "water","elementType": "all","stylers": [{"color": "#9bdffb"},{"visibility": "on"}]}], {name: 'nc 10'});
+        map = new google.maps.Map(document.getElementById('map'), {
+		 	mapTypeControl: false,
+		 	center: {lat: 121, lng: 14},
+		    zoom: 6,
+		    disableDefaultUI: true,
+			mapTypeControlOptions: {
+  				mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'nc10']
+			}
+        });
+		map.mapTypes.set('nc10', customMapType);
+		map.setMapTypeId('nc10');
+        you = new google.maps.InfoWindow();
+		isAuto = document.getElementById("secretAuto").value;
+		marketName = document.getElementById("secretMarket").value;
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+		    navigator.geolocation.getCurrentPosition(function(position) {
+        	    var pos = {
+        	        lat: position.coords.latitude,
+        	        lng: position.coords.longitude
+                };
+                currentPositionMarker(pos);
+                infowindow = new google.maps.InfoWindow();
+                map.setCenter(pos);
+                map.setZoom(16);
+	     		if(isAuto=="true"){
+                    var circle = new google.maps.Circle({
+                        center: pos,
+                        map: map,
+                        radius: 1000,          // IN METERS.
+                        fillColor: '#FF6600',
+                        fillOpacity: 0.3,
+                        strokeColor: "#FFF",
+                        strokeWeight: 0         // DON'T SHOW CIRCLE BORDER.
+                    });
+	     			var service = new google.maps.places.PlacesService(map);
+					service.nearbySearch({
+			  			location: pos,
+		      			radius: 1000,
+		      			types: ['grocery_or_supermarket']
+		  			}, callback);
+	     		}
+	     		else{
+	     			var service = new google.maps.places.PlacesService(map);
+					service.textSearch({
+    		  			location: pos,
+    		  			radius: 50000,
+    	      			query: marketName
+		  			}, callback);
+	     		}
+		    }, function() {
+		      handleLocationError(true, you, map.getCenter());
+		    });
+        } else {
+        // Browser doesn't support Geolocation
+            handleLocationError(false, you, map.getCenter());
+        }
+	}
+
+	function callback(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            if(isAuto=="true"){
+                for (var i = 0; i < results.length; i++) {
+                    createMarker(results[i]);
+                }
+            }
+            else{
+			    createMarker(results[0]);
+                map.setCenter(results[0].geometry.location);
+            }
+        }
+    }
+
+	function currentPositionMarker(pos){
+	  	var pinIcon = new google.maps.MarkerImage(
+			'images/personicon.png',
+			null, /* size is determined at runtime */
+			null, /* origin is 0,0 */
+			null, /* anchor is bottom center of the scaled image */
+			new google.maps.Size(42, 42)
+		);  
+	 	var marker = new google.maps.Marker({
+		    map: map,
+		    title:"You are currently here",
+		    position: pos,
+		    icon: pinIcon
+        });
+        google.maps.event.addListener(marker, 'click', function() {
+		    you.setContent("You are currently here ");
+		    you.open(map, this);
+	  });
+	}
+	function createMarker(place) {
+	  var placeLoc = place.geometry.location;
+	  var marker = new google.maps.Marker({
+	    map: map,
+	    position: place.geometry.location
+	  });
+	
+	  google.maps.event.addListener(marker, 'click', function() {
+	    infowindow.setContent(place.name);
+	    infowindow.open(map, this);
+	  });
+	}
+
+	function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        you.setPosition(pos);
+        you.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
+	}
+	function LoadMenu(){
+		window.location.href="index.php";
+	}
+</script>
+	<input type ="text" class="hidden" id="secretAuto" value="{{ autox }}">
+	<input type ="text" class="hidden" id="secretMarket" value="{{ market }}">
+	
+<div id="backmodal" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Are you sure?</h4>
+			</div>
+			<div class="modal-body">
+        		<p>Back to menu?</p>
+   			</div>
+   			<div class="modal-footer">
+        		<button  class="btn btn-danger modalbutton" data-dismiss="modal" onclick="LoadMenu()">Yes</button>
+        		<button  class="btn btn-default modalbutton" data-dismiss="modal">Cancel</button>
+   			</div>
+   		</div>
+   	</div>
+</div>
+
+<div class="div50 pull-left">
+	<div id="explainmodal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+    			<div class="modal-header">
+    				<button type="button" class="close" data-dismiss="modal">&times;</button>
+    				<h4 class="modal-title"> <p id="secretFood"></p></h4>
+    			</div>
+    			<div class="modal-body">
+                    <div class="loader-custom"></div>
+            		<p id="explanation"></p>
+                    <span id="link" class="pull-right"></span>
+                    <div class="clearfix">
+                    </div>
+       			</div>
+       			<div class="modal-footer">     
+            		<button  class="btn btn-default modalbutton" data-dismiss="modal">Close</button>
+       			</div>
+			</div>
+		</div>
+	</div>
+	<div class="navbar transparent navbar-inverse navbar-fixed-top">
+		<button type="button" class="wd btn-lg">
+			<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+		</button>
+		<h3>healthspenditure</h3>
+  	</div>
+    <div class="thelagayan">
+		<div class="lagayan center-block container-fluid">
+			<center><h3 class="text-success">Recommended Foods</h3></center>	
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Food</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody id="troww" data-toggle="modal" data-target="#explainmodal">
+                {% for food in recommendedFoods %}
+                    <tr>
+                        <td>{{ food }}</td>
+                        <td>
+                            {% if price[loop.index-1] == "No Results" %}
+                                {{ "Price not updated" }}
+                            {% else %}
+                                {{ price[loop.index-1] }}
+                            {% endif %}
+                        </td>
+                    </tr>   			
+                {% endfor %}	 	 
+				 	<script>
+					$(function(){
+						$("#troww tr").click(function(){
+                            $(".loader-custom").show();
+							$("#secretFood").text($("td:first-child", this).text());
+                            $.get('explain/recommended/'+$("td:first-child", this).text(), function(data){
+                                if(data == "None" || data==""){
+                                    $("#explanation").text("No Explanation");
+                                    $("#link").html("");
+                                    $(".loader-custom").hide();
+                                }
+                                else{
+                                    $("#explanation").text(data);   
+                                    $("#link").html("Source: visit <a href='http://www.livestrong.com' target='blank' class='text-info'>Livestrong.com</a> for more information");
+                                    $(".loader-custom").hide();
+                                }
+                            });
+                        });
+					});
+				</script>
+                </tbody>
+            </table>
+		</div>
+		<div class="lagayan_sapa center-block">
+			<center><h3 class="text-danger">Avoid these Foods</h3></center>	
+			<table class="table table-striped text-center">
+                <tbody id="troww2" data-toggle="modal" data-target="#explainmodal">
+                {% for food in notRecommendedFoods %}
+                    <tr>
+                        <td>{{ food }}</td>
+                    </tr>               
+                {% endfor %}         
+                   <script>
+     					$(function(){
+     						$("#troww2 tr td").click(function(){
+                                $(".loader-custom").show();
+       							$("#secretFood").text($(this).text());
+      							 $.get('explain/avoid/'+$(this).text(), function(data){
+                                    if(data == "None" || data==""){
+                                        $("#explanation").text("No Explanation");
+                                        $("#link").html("");  
+                                        $(".loader-custom").hide();
+                                    }
+                                    else{
+                                        $("#explanation").text(data); 
+                                        $("#link").html("Source: visit <a href='http://www.livestrong.com' target='blank' class='text-info'>Livestrong.com</a> for more information");  
+                                        $(".loader-custom").hide();
+                                    }
+                                });
+     						});
+      					});
+					</script>
+                </tbody>
+            </table>
+		</div>
+		<br />
+		<center>
+			<span href="Page2.php" class="I_design" onclick="LoadRecipes()">View Available Recipes</span>
+			<span class="I_design_2"  data-toggle="modal" data-target="#backmodal">Back</span>
+		</center>
+	</div>
+</div>
+
+<script>
+	function LoadRecipes(){
+		//window.location.href="Page2.php";
+        alert("We are currently constructing this part of the website and this will be available soon.. Thank you!");
+	}
+</script>
+{% endblock %}

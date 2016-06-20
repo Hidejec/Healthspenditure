@@ -16,13 +16,17 @@ class ComposerStaticInita831ba83aa71450c362e049706f66e25
             'Slim\\Views\\' => 11,
             'Slim\\' => 5,
         ),
+        'R' => 
+        array (
+            'Responses\\' => 10,
+        ),
         'P' => 
         array (
             'Psr\\Http\\Message\\' => 17,
         ),
         'M' => 
         array (
-            'Model\\' => 6,
+            'Models\\' => 7,
         ),
         'L' => 
         array (
@@ -33,13 +37,21 @@ class ComposerStaticInita831ba83aa71450c362e049706f66e25
         array (
             'Interop\\Container\\' => 18,
         ),
+        'H' => 
+        array (
+            'Helpers\\' => 8,
+        ),
         'F' => 
         array (
             'FastRoute\\' => 10,
         ),
+        'E' => 
+        array (
+            'Exceptions\\' => 11,
+        ),
         'C' => 
         array (
-            'Controller\\' => 11,
+            'Controllers\\' => 12,
         ),
     );
 
@@ -52,13 +64,17 @@ class ComposerStaticInita831ba83aa71450c362e049706f66e25
         array (
             0 => __DIR__ . '/..' . '/slim/slim/Slim',
         ),
+        'Responses\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/responses',
+        ),
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'Model\\' => 
+        'Models\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/app/Model',
+            0 => __DIR__ . '/../..' . '/app/models',
         ),
         'Liquido\\Model\\' => 
         array (
@@ -72,13 +88,21 @@ class ComposerStaticInita831ba83aa71450c362e049706f66e25
         array (
             0 => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container',
         ),
+        'Helpers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/helpers',
+        ),
         'FastRoute\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',
         ),
-        'Controller\\' => 
+        'Exceptions\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/app/Controller',
+            0 => __DIR__ . '/../..' . '/app/exceptions',
+        ),
+        'Controllers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/controllers',
         ),
     );
 
