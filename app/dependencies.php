@@ -6,7 +6,7 @@ $container = $app->getContainer();
 
 $container["view"] = function($container){ 
 
- 	$view = new \Slim\Views\Twig('public/views', [
+ 	$view = new \Slim\Views\Twig('app/views', [
         'cache' => false
     ]);
     $view->addExtension(new \Slim\Views\TwigExtension(
